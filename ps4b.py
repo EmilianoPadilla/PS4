@@ -46,6 +46,7 @@ def is_word(word_list, word):
     word = word.strip(" !@#$%^&*()-_+={}[]|\:;'<>?,./\"")
     return word in word_list
 
+
 def get_story_string():
     """
     Returns: a story in encrypted text.
@@ -54,6 +55,11 @@ def get_story_string():
     story = str(f.read())
     f.close()
     return story
+
+word_list = load_words("words.txt")
+print(is_word(word_list, "thoracic"))
+story = get_story_string()
+print(story)
 
 ### END HELPER CODE ###
 
@@ -70,7 +76,8 @@ class Message(object):
             self.message_text (string, determined by input text)
             self.valid_words (list, determined using helper function load_words)
         '''
-        pass #delete this line and replace with your code here
+        self.message_text = input("Write your message: ")
+        self.valid_words = list(load_words)
 
     def get_message_text(self):
         '''
@@ -78,7 +85,7 @@ class Message(object):
         
         Returns: self.message_text
         '''
-        pass #delete this line and replace with your code here
+        return self.message_text
 
     def get_valid_words(self):
         '''
@@ -87,7 +94,8 @@ class Message(object):
         
         Returns: a COPY of self.valid_words
         '''
-        pass #delete this line and replace with your code here
+        copy_get_valid_words = self.valid_words.copy()
+        return copy_get_valid_words
 
     def build_shift_dict(self, shift):
         '''
@@ -103,7 +111,23 @@ class Message(object):
         Returns: a dictionary mapping a letter (string) to 
                  another letter (string). 
         '''
-        pass #delete this line and replace with your code here
+        dictionary = {} 
+        
+        for letter in string.ascii_lowercase:
+            index = string.ascii_lowercase.index(letter) #le asigna un valor numerico a la variable index
+            shifted_index = (index + shift) % 26 #le asigna el valor numerico + shift a la variable shifted_index
+            shifted_letter =  string.ascii_lowercase[shifted_index] #basado en el valor de shifted index, asigna una letra a shifted_letter
+            dictionary[letter] = shifted_letter #añade todas las letras al diccionario y les pone de value a shifted letter
+
+        for letter_upp in string.ascii_uppercase:
+            index_upp = string.ascii_uppercase.index(letter_upp)
+            shifted_index_upp =  (index_upp + shift) % 26
+            shifted_letter_upp =  string.ascii_uppercase[shifted_index_upp]
+            dictionary[letter_upp] = shifted_letter_upp
+
+        return dictionary 
+
+
 
     def apply_shift(self, shift):
         '''
